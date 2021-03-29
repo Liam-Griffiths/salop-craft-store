@@ -9,11 +9,20 @@ import FormInput from './CustomTextField';
 const AddressForm = ({ checkoutToken, test }) => {
   const [shippingCountries, setShippingCountries] = useState([]);
   const [shippingCountry, setShippingCountry] = useState('');
+  const [billingCountries, setBillingCountries] = useState([]);
+  const [billingCountry, setBillingCountry] = useState('');
   const [shippingSubdivisions, setShippingSubdivisions] = useState([]);
   const [shippingSubdivision, setShippingSubdivision] = useState('');
   const [shippingOptions, setShippingOptions] = useState([]);
   const [shippingOption, setShippingOption] = useState('');
   const methods = useForm();
+
+  const fetchBillingCountries = async () => {
+    const { countries } = await commerce.services.localeListCountries();
+
+    setBillingCountries(countries);
+    setBillingCountry(Object.keys(countries)[233]);
+  };
 
   const fetchShippingCountries = async (checkoutTokenId) => {
     const { countries } = await commerce.services.localeListShippingCountries(checkoutTokenId);
@@ -41,6 +50,10 @@ const AddressForm = ({ checkoutToken, test }) => {
   }, []);
 
   useEffect(() => {
+    fetchBillingCountries();
+  }, []);
+
+  useEffect(() => {
     if (shippingCountry) fetchSubdivisions(shippingCountry);
   }, [shippingCountry]);
 
@@ -50,9 +63,9 @@ const AddressForm = ({ checkoutToken, test }) => {
 
   return (
     <>
-      <Typography variant="h6" gutterBottom>Shipping address</Typography>
+      <Typography variant="h6" gutterBottom>Shipping Address</Typography>
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit((data) => test({ ...data, shippingCountry, shippingSubdivision, shippingOption }))}>
+        <form onSubmit={methods.handleSubmit((data) => test({ ...data, billingCountry, shippingCountry, shippingSubdivision, shippingOption }))}>
           <Grid container spacing={3}>
             <FormInput required name="firstName" label="First name" />
             <FormInput required name="lastName" label="Last name" />
@@ -64,9 +77,9 @@ const AddressForm = ({ checkoutToken, test }) => {
               <InputLabel>Shipping Country</InputLabel>
               <Select value={shippingCountry} fullWidth onChange={(e) => setShippingCountry(e.target.value)}>
                 {Object.entries(shippingCountries).map(([code, name]) => ({ id: code, label: name })).map((item) => (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.label}
-                  </MenuItem>
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.label}
+                    </MenuItem>
                 ))}
               </Select>
             </Grid>
@@ -87,6 +100,27 @@ const AddressForm = ({ checkoutToken, test }) => {
                   <MenuItem key={item.id} value={item.id}>
                     {item.label}
                   </MenuItem>
+                ))}
+              </Select>
+            </Grid>
+          </Grid>
+          <br />
+          <br />
+          <Typography variant="h6" gutterBottom>Billing Address</Typography>
+          <Grid container spacing={3}>
+            <FormInput required name="billFirstName" label="Billing First name" />
+            <FormInput required name="billLastName" label="Billing Last name" />
+            <FormInput required name="billAddress1" label="Address line 1" />
+            <FormInput required name="billCity" label="City" />
+            <FormInput required name="billState" label="County or State" />
+            <FormInput required name="billZip" label="Zip / Postal code" />
+            <Grid item xs={12} sm={6}>
+              <InputLabel>Billing Country</InputLabel>
+              <Select value={billingCountry} fullWidth onChange={(e) => setBillingCountry(e.target.value)}>
+                {Object.entries(billingCountries).map(([code, name]) => ({ id: code, label: name })).map((item) => (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.label}
+                    </MenuItem>
                 ))}
               </Select>
             </Grid>

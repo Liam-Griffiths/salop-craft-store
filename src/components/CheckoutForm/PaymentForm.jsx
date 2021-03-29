@@ -1,9 +1,10 @@
 import React from 'react';
-import { Typography, Button, Divider } from '@material-ui/core';
+import {Typography, Button, Divider, Grid} from '@material-ui/core';
 import { Elements, CardElement, ElementsConsumer } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
 import Review from './Review';
+import FormInput from './CustomTextField';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
@@ -24,6 +25,7 @@ const PaymentForm = ({ checkoutToken, nextStep, backStep, shippingData, onCaptur
         line_items: checkoutToken.live.line_items,
         customer: { firstname: shippingData.firstName, lastname: shippingData.lastName, email: shippingData.email },
         shipping: { name: 'International', street: shippingData.address1, town_city: shippingData.city, county_state: shippingData.shippingSubdivision, postal_zip_code: shippingData.zip, country: shippingData.shippingCountry },
+        billing: { name: `${shippingData.billFirstName} ${shippingData.billLastName}`, street: shippingData.billAddress1, town_city: shippingData.billCity, county_state: shippingData.billState, postal_zip_code: shippingData.billZip, country: shippingData.billingCountry },
         fulfillment: { shipping_method: shippingData.shippingOption },
         payment: {
           gateway: 'stripe',
@@ -32,6 +34,8 @@ const PaymentForm = ({ checkoutToken, nextStep, backStep, shippingData, onCaptur
           },
         },
       };
+      console.log(JSON.stringify(shippingData));
+      console.log(JSON.stringify(orderData));
 
       onCaptureCheckout(checkoutToken.id, orderData);
 
