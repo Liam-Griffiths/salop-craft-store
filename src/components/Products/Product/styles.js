@@ -17,4 +17,7 @@ export default makeStyles(() => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
+  desc: {
+    height: 45
+  },
 }));

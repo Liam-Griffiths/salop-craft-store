@@ -19,7 +19,6 @@ const Product = ({ product, onAddToCart, cart }) => {
         }
     }, []);*/
 
-
   return (
     <Card className={classes.root}>
       <CardMedia className={classes.media} image={product.media.source} title={product.name} />
@@ -32,7 +31,7 @@ const Product = ({ product, onAddToCart, cart }) => {
             ${product.price.formatted}
           </Typography>
         </div>
-        <Typography dangerouslySetInnerHTML={{ __html: product.description }} variant="body2" color="textSecondary" component="p" />
+        <Typography dangerouslySetInnerHTML={{ __html: product.description }} variant="body2" color="textSecondary" className={classes.desc} component="p" />
       </CardContent>
       <CardActions disableSpacing className={classes.cardActions}>
           {
