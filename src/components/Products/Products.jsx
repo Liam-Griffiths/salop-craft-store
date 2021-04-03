@@ -26,7 +26,7 @@ const Products = ({ products, onAddToCart }) => {
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />
-      <Grid container justify="center" spacing={4}>
+      <Grid container justify="center" spacing={7}>
         {products.map((product) => (
             <>{
                 product.quantity > 0 &&

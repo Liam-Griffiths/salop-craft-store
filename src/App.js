@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Navbar, Products, Cart, Checkout } from './components';
 import { commerce } from './lib/commerce';
 
+import Background from './assets/bg.png';
+
 const App = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [products, setProducts] = useState([]);
@@ -73,7 +75,7 @@ const App = () => {
 
   return (
     <Router>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', paddingTop: 150, backgroundImage: `url(${Background})`}}>
         <CssBaseline />
         <Navbar totalItems={cart.total_items} handleDrawerToggle={handleDrawerToggle} />
         <Switch>

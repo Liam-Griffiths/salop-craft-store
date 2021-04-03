@@ -1,11 +1,15 @@
 import { makeStyles, fade } from '@material-ui/core/styles';
-
+import Background from '../../assets/bg2.png';
 const drawerWidth = 0;
+
 
 export default makeStyles((theme) => ({
   appBar: {
+    backgroundColor: 'rgb(247,247,247)',
     boxShadow: 'none',
-    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+    borderBottom: '4px solid rgba(0, 0, 0, 0.12)',
+    paddingLeft: 20,
+    paddingRight: 20,
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
@@ -17,8 +21,13 @@ export default makeStyles((theme) => ({
     display: 'flex',
     textDecoration: 'none',
   },
+  badgeButton: {
+    height: 100,
+    width: 100
+  },
   image: {
-    marginRight: '10px',
+    margin: 25,
+    maxWidth: '80%'
   },
   menuButton: {
     marginRight: theme.spacing(2),
