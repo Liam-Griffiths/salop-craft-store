@@ -21,9 +21,8 @@ export default makeStyles((theme) => ({
     display: 'flex',
     textDecoration: 'none',
   },
-  badgeButton: {
-    height: 100,
-    width: 100
+  topMenu:{
+    paddingLeft: 25,
   },
   image: {
     margin: 25,

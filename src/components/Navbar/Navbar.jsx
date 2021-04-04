@@ -20,12 +20,23 @@ const PrimarySearchAppBar = ({ totalItems }) => {
   const renderMobileMenu = (
     <Menu anchorEl={mobileMoreAnchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} id={mobileMenuId} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={isMobileMenuOpen} onClose={handleMobileMenuClose}>
       <MenuItem>
-        <IconButton component={Link} to="/cart" aria-label="Show cart items" color="inherit">
+        <Typography className={classes.topMenu} component={Link} to="/products" variant="h6" className={classes.title} color="inherit">
+          Jewellery
+        </Typography>
+      </MenuItem>
+      <MenuItem>
+        <Typography className={classes.topMenu} component={Link} to="/" variant="h6" className={classes.title} color="inherit">
+          Custom
+        </Typography>
+      </MenuItem>
+      <MenuItem>
+        <Typography component={Link} to="/cart" variant="h6" className={classes.title} color="inherit">
+          Basket <IconButton component={Link} to="/cart" aria-label="Show cart items"  color="inherit">
           <Badge badgeContent={totalItems} color="secondary">
             <ShoppingCart />
           </Badge>
         </IconButton>
-        <p>Cart</p>
+        </Typography>
       </MenuItem>
     </Menu>
   );
@@ -34,19 +45,32 @@ const PrimarySearchAppBar = ({ totalItems }) => {
     <>
       <AppBar position="fixed" className={classes.appBar} color="inherit">
         <Toolbar>
+
           <Typography component={Link} to="/" variant="h6" className={classes.title} color="inherit">
-            <img src={logo} alt="commerce.js" height="15%" className={classes.image} />
+            <img src={logo} alt="Salop Craft" height="18%" className={classes.image} />
           </Typography>
-          <div className={classes.grow} />
-          {location.pathname === '/' && (
+          <div className={`${classes.grow} ${classes.topMenuContainer}`} />
+          {location.pathname && (
               <>
-          <div className={classes.button}>
-            <IconButton component={Link} to="/cart" aria-label="Show cart items"  color="inherit">
+                <div className={`${classes.button} ${classes.topMenu}`}>
+                  <Typography className={classes.topMenu} component={Link} to="/products" variant="h6" className={classes.title} color="inherit">
+                    Jewellery
+                  </Typography>
+                </div>
+              <div className={`${classes.button} ${classes.topMenu}`}>
+                <Typography className={classes.topMenu} component={Link} to="/" variant="h6" className={classes.title} color="inherit">
+                  Custom
+                </Typography>
+              </div>
+          <div className={`${classes.button} ${classes.topMenu}`}>
+            <Typography component={Link} to="/cart" variant="h6" className={classes.title} color="inherit">
+              Basket <IconButton component={Link} to="/cart" aria-label="Show cart items"  color="inherit">
               <Badge badgeContent={totalItems} color="secondary">
                 <ShoppingCart />
               </Badge>
             </IconButton>
-          </div>
+            </Typography>
+              </div>
           </>
           )}
         </Toolbar>

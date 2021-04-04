@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CssBaseline } from '@material-ui/core';
+import {CssBaseline, Typography} from '@material-ui/core';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { Navbar, Products, Cart, Checkout } from './components';
@@ -75,11 +75,14 @@ const App = () => {
 
   return (
     <Router>
-      <div style={{ display: 'flex', paddingTop: 150, backgroundImage: `url(${Background})`}}>
+      <div style={{ display: 'flex', paddingTop: '15%', backgroundImage: `url(${Background})`}}>
         <CssBaseline />
         <Navbar totalItems={cart.total_items} handleDrawerToggle={handleDrawerToggle} />
         <Switch>
           <Route exact path="/">
+            <Products products={products} onAddToCart={handleAddToCart} handleUpdateCartQty />
+          </Route>
+          <Route exact path="/products">
             <Products products={products} onAddToCart={handleAddToCart} handleUpdateCartQty />
           </Route>
           <Route exact path="/cart">

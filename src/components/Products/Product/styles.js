@@ -17,7 +17,13 @@ export default makeStyles(() => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
+  title: {
+    height: 80,
+    borderBottom: '2px solid rgba(0, 0, 0, 0.12)',
+    overflow: 'hidden'
+  },
   desc: {
-    height: 45
+    height: 90,
+    overflow: 'scroll'
   },
 }));
