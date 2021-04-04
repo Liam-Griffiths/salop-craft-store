@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {CssBaseline, Typography} from '@material-ui/core';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom';
 
-import { Navbar, Products, Cart, Checkout } from './components';
+import { Navbar, Products, Cart, Checkout, Home } from './components';
 import { commerce } from './lib/commerce';
 
 import Background from './assets/bg.png';
@@ -10,6 +10,7 @@ import Background from './assets/bg.png';
 const App = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [cart, setCart] = useState({});
   const [order, setOrder] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
@@ -18,6 +19,12 @@ const App = () => {
     const { data } = await commerce.products.list();
 
     setProducts(data);
+  };
+
+  const fetchCategories = async () => {
+    const { data } = await commerce.categories.list();
+
+    setCategories(data);
   };
 
   const fetchCart = async () => {
@@ -68,6 +75,7 @@ const App = () => {
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
     fetchCart();
   }, []);
 
@@ -75,14 +83,17 @@ const App = () => {
 
   return (
     <Router>
-      <div style={{ display: 'flex', paddingTop: '15%', backgroundImage: `url(${Background})`}}>
+      <div style={{ display: 'flex', paddingTop: '8%', backgroundImage: `url(${Background})`}}>
         <CssBaseline />
         <Navbar totalItems={cart.total_items} handleDrawerToggle={handleDrawerToggle} />
         <Switch>
           <Route exact path="/">
-            <Products products={products} onAddToCart={handleAddToCart} handleUpdateCartQty />
+            <Home products={products} categories={categories} onAddToCart={handleAddToCart} handleUpdateCartQty />
           </Route>
           <Route exact path="/products">
+            <Products products={products} onAddToCart={handleAddToCart} handleUpdateCartQty />
+          </Route>
+          <Route path="/products/:cat">
             <Products products={products} onAddToCart={handleAddToCart} handleUpdateCartQty />
           </Route>
           <Route exact path="/cart">
@@ -93,6 +104,12 @@ const App = () => {
           </Route>
         </Switch>
       </div>
+      <Typography style={{marginBottom: 50}} variant="body2" color="textSecondary" align="center">
+        {'Copyright © '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+
     </Router>
   );
 };

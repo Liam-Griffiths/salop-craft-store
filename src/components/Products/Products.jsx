@@ -3,9 +3,13 @@ import Grid from '@material-ui/core/Grid';
 
 import Product from './Product/Product';
 import useStyles from './styles';
+import { useParams } from "react-router";
 import {commerce} from '../../lib/commerce';
+import {Typography} from '@material-ui/core';
+
 
 const Products = ({ products, onAddToCart }) => {
+    let { cat } = useParams();
   const classes = useStyles();
 
     const [cart, setCart] = useState([]);
@@ -23,11 +27,26 @@ const Products = ({ products, onAddToCart }) => {
 
   if (!products.length) return <p>Loading...</p>;
 
+    let productsCopy = [...products];
+    if(cat){
+        let filteredArr = [];
+        for(let p of productsCopy){
+            console.log(p.categories.length)
+            if(p.categories.length > 0){
+                filteredArr.push(p);
+            }
+        }
+        productsCopy = [...filteredArr]
+    }
+
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />
+        <Typography style={{paddingBottom: 10}} variant="h5" component="h2">
+            All Jewellery
+        </Typography>
       <Grid container justify="center" spacing={3}>
-        {products.map((product) => (
+        {productsCopy.map((product) => (
             <>{
                 product.quantity > 0 &&
 
