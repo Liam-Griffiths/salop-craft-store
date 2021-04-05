@@ -54,7 +54,7 @@ const PrimarySearchAppBar = ({ totalItems }) => {
               <>
                 <div className={`${classes.button} ${classes.topMenu}`}>
                   <Typography className={classes.topMenu} component={Link} to="/products" variant="h6" className={classes.title} color="inherit">
-                    Jewellery
+                    All Jewellery
                   </Typography>
                 </div>
               <div className={`${classes.button} ${classes.topMenu}`}>
