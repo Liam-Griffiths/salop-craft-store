@@ -13,37 +13,45 @@ const Products = ({ products, onAddToCart }) => {
   const classes = useStyles();
 
     const [cart, setCart] = useState([]);
+    const [catProducts, setCatProducts] = useState([]);
+    const [catData, setCatData] = useState([]);
     const fetchCart = async () => {
         const res = await commerce.cart.retrieve();
 
         setCart(res);
+    };
 
-        console.log(JSON.stringify(res));
+    const fetchProductsByCat = async (cat) => {
+        try {
+            const params = {category_slug: [cat]};
+            const {data} = await commerce.products.list(params);
+            const category = await commerce.categories.retrieve(cat, {type: 'slug'});
+
+            setCatProducts(data);
+            setCatData(category);
+        }
+        catch{
+            return;
+        }
     };
 
     useEffect(() => {
+        if(cat) fetchProductsByCat(cat);
         fetchCart();
     }, []);
 
   if (!products.length) return <p>Loading...</p>;
-
     let productsCopy = [...products];
-    if(cat){
-        let filteredArr = [];
-        for(let p of productsCopy){
-            console.log(p.categories.length)
-            if(p.categories.length > 0){
-                filteredArr.push(p);
-            }
-        }
-        productsCopy = [...filteredArr]
-    }
+    if(cat && catProducts) productsCopy = catProducts;
+
+    let pageTitle = "All Jewellery";
+    if(cat && catProducts && catData) pageTitle = catData.name;
 
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />
         <Typography style={{paddingBottom: 10}} variant="h5" component="h2">
-            All Jewellery
+            {pageTitle}
         </Typography>
       <Grid container justify="center" spacing={3}>
         {productsCopy.map((product) => (
